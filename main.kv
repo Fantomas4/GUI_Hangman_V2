@@ -1,0 +1,193 @@
+#:import WipeTransition kivy.uix.screenmanager.WipeTransition
+
+
+ScreenManagement:
+    transition: WipeTransition()
+    id: screen_manager
+    WelcomeScreen:
+        id: welcome_screen
+        name: 'WelcomeScreen'
+        manager: screen_manager
+    RegisterScreen:
+        id: register_screen
+        name: 'RegisterScreen'
+        manager: screen_manager
+    LoginScreen:
+        id: login_screen
+        name: 'LoginScreen'
+        manager: screen_manager
+    MenuScreen:
+        id: menu_screen
+        name: 'MenuScreen'
+        manager: screen_manager
+    SingleplayerGameScreen:
+        id: singleplayer_screen
+        name: 'SingleplayerGameScreen'
+        manager: screen_manager
+
+<WelcomeScreen>:
+    name: 'welcome_screen'
+    BoxLayout:
+        id: welcome_layout
+        orientation: 'vertical'
+        padding: 30
+
+        Label:
+            text: "*** GUI Hangman ALPHA version ***"
+            font_size: 40
+        BoxLayout:
+            orientation: 'horizontal'
+            Button:
+                font_size: 40
+                text: "Existing user"
+                on_release: app.root.current = 'LoginScreen'
+            Button:
+                font_size: 40
+                text: "New user"
+                on_release: app.root.current = 'RegisterScreen'
+            Button:
+                font_size: 40
+                text: "Play as guest"
+                on_release: root.guest_login()
+
+<RegisterScreen>:
+    name: 'register_screen'
+    username_text_input: username
+    password_text_input: password
+    user_error_msg: usr_error_msg
+
+    BoxLayout:
+        orientation: "vertical"
+        GridLayout:
+
+            rows: 2
+            cols: 2
+            padding: 10
+            spacing: 10
+            Label:
+                font_size: 35
+                text: "Set username:"
+            TextInput:
+                id: username
+            Label:
+                font_size: 35
+                text: "Set password:"
+            TextInput:
+                id: password
+        Label:
+            id: usr_error_msg
+            font_size: 30
+            text:
+        Button:
+            text: "Register!"
+            font_size: 35
+            on_release: root.register_user()
+        Button:
+            text: "Return to Welcome Screen"
+            font_size: 35
+            on_release: app.root.current = 'WelcomeScreen'
+
+
+<LoginScreen>:
+    name: 'login_screen'
+    username_text_input: username
+    password_text_input: password
+    user_error_msg: usr_error_msg
+
+
+    BoxLayout:
+        orientation: "vertical"
+        GridLayout:
+
+            rows: 2
+            cols: 2
+            padding: 10
+            spacing: 10
+            Label:
+                font_size: 35
+                text: "User name:"
+            TextInput:
+                id: username
+            Label:
+                font_size: 35
+                text: "Password:"
+            TextInput:
+                id: password
+        Label:
+            id: usr_error_msg
+            font_size: 30
+            text:
+        Button:
+            text: "Enter!"
+            font_size: 35
+            on_release: root.login_func()
+        Button:
+            text: "Return to Welcome Screen"
+            font_size: 35
+            on_release: app.root.current = 'WelcomeScreen'
+
+
+<MenuScreen>:
+    name: 'menu_screen'
+
+    BoxLayout:
+        orientation: "vertical"
+        Button:
+            id: menu_option1
+            font_size: 25
+            on_release: app.root.current = 'SingleplayerGameScreen'
+        Button:
+            font_size: 25
+            text: "Enter the options submenu"
+        Button:
+            font_size: 25
+            text: "Host a multiplayer session (BETA!)"
+        Button:
+            font_size: 25
+            text: "Join a multiplayer session (ALPHA!)"
+        Button:
+            font_size: 25
+            text: "Return to Welcome Screen"
+            on_release: app.root.current = "WelcomeScreen"
+
+
+<SingleplayerGameScreen>:
+    name: 'singleplayer_screen'
+    guess_input: gu_input
+    word_output: word_display
+    gu_left_output: gu_left
+    wrong_used_char_output: wrong_char
+    error_msg_output: msg_box
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 30
+        spacing: 20
+        Label:
+            id: word_display
+            text:
+            font_size: 80
+        Label:
+            id: gu_left
+            text:
+            font_size: 50
+        Label:
+            id: wrong_char
+            text:
+            font_size: 40
+        TextInput:
+            id: gu_input
+        Button:
+            text: "Submit!"
+            id: submit_gu
+            on_press: root.run_game(gu_input)
+        Label:
+            id: msg_box
+            font_size: 25
+            text:
+        Button:
+            text: "Exit and return to Welcome Screen"
+            font_size: 35
+            on_release: app.root.current = "MenuScreen"
+
+
